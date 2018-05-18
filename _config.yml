@@ -16,11 +16,11 @@
 
 # Name of your site (displayed in the header)
 
-title: Your awesome title
-email: Atie.Dag@gmail.com
-description:
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+title:  Atie Daghlawi
+author: Atie Daghlawi
+# description:
+# baseurl: "" # the subpath of your site, e.g. /blog
+# url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
 
 linkedin_username: atie-daghlawi
@@ -34,10 +34,9 @@ highlighter: rouge
 
 header_pages:
   - about.md
-  - portfolio.md
 
-plugins:
-  - jekyll-feed
+# plugins:
+#  - jekyll-feed
 
 
 # Exclude from processing.

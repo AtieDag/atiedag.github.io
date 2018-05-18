@@ -17,14 +17,26 @@
 # Name of your site (displayed in the header)
 
 title:  Atie Daghlawi
-author: Atie Daghlawi
-# description:
+author: Data scientists
+# email: your-email@domain.com
+description: Hi! My name is Atie
 # baseurl: "" # the subpath of your site, e.g. /blog
 # url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
-
 linkedin_username: atie-daghlawi
 github_username:  atiedag
+# rss: rss
+# dribbble_username: jekyll
+# facebook_username: jekyll
+# flickr_username: jekyll
+# instagram_username: jekyll
+# linkedin_username: jekyll
+# pinterest_username: jekyll
+# youtube_username: jekyll
+# googleplus_username: +jekyll
+
+show_excerpts: false # set to true to show excerpts on the homepage
+
 
 # Build settings
 markdown: kramdown

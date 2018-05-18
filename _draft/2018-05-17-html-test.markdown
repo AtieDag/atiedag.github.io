@@ -1,7 +1,0 @@
----
-layout: post
-title:  "Experimenting with RNN!"
-date:   2018-05-14
-categories: DeepLearning
-author: "Atie Daghlawi"
----

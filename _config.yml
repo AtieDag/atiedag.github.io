@@ -35,8 +35,8 @@ highlighter: rouge
 header_pages:
   - about.md
 
-# plugins:
-#  - jekyll-feed
+plugins:
+  - jekyll-feed
 
 
 # Exclude from processing.

@@ -9,7 +9,7 @@ source "https://rubygems.org"
 # This will help ensure the proper Jekyll version is running.
 # Happy Jekylling!
 gem "jekyll", "~> 3.8.1"
-gem "jekyll-jupyter-notebook"
+gem "rouge"
 gem "jekyll-sitemap" # Create a sitemap using the official Jekyll sitemap gem
 
 # This is the default theme for new Jekyll sites.

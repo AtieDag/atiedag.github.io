@@ -1,10 +1,9 @@
 ---
-layout: htmlpage
+layout: notebook
 title:  "Experimenting with RNN!"
 date:   2018-05-14
+excerpt: Provide some basic intuition on the diffrences between two types of deep neural networks
 ---
-
-
 
 * The goal of this notebook is to provide some basic intuition on the diffrences between two types of deep neural networks. And to encourage you to test different deep learning architectures. This experiment has been run on a NVIDIA GeForce GTX 970 but shouldn't have any problem with using CPU only.
 

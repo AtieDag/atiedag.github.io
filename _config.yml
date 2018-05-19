@@ -17,8 +17,8 @@
 # Name of your site (displayed in the header)
 
 title:  Atie Daghlawi
-author: Data scientists
-# email: your-email@domain.com 
+author: Data scientist
+# email: your-email@domain.com
 description: ''#
 # baseurl: "" # the subpath of your site, e.g. /blog
 # url: "" # the base hostname & protocol for your site, e.g. http://example.com

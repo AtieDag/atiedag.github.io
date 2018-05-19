@@ -18,12 +18,8 @@
 
 title:  Atie Daghlawi
 author: Data scientists
-# email: your-email@domain.com
-<<<<<<< HEAD
-description: '' #
-=======
+# email: your-email@domain.com 
 description: ''#
->>>>>>> cb2a5cff6c770eca78c8765391e0e1e64d703b8a
 # baseurl: "" # the subpath of your site, e.g. /blog
 # url: "" # the base hostname & protocol for your site, e.g. http://example.com
 

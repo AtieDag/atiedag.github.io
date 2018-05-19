@@ -2,12 +2,13 @@
 layout: notebook
 title:  "Experimenting with RNN!"
 date:   2018-05-14
-excerpt: Provide some basic intuition on the diffrences between two types of deep neural networks
+excerpt: The goal of this notebook is to provide some basic intuition on the diffrences between two types of deep neural networks and to encourage you to test different deep learning architectures.
+tags: RNN APA
 ---
 
-* The goal of this notebook is to provide some basic intuition on the diffrences between two types of deep neural networks. And to encourage you to test different deep learning architectures. This experiment has been run on a NVIDIA GeForce GTX 970 but shouldn't have any problem with using CPU only.
+This experiment has been run on a NVIDIA GeForce GTX 970 but shouldn't have any problem with using CPU only.
 
-* This experiment is written in Python with the help of the libraries tensorflow and keras, the model code exist on a different file to make this easier to run. See the ([DeepLearningModels.py](https://github.com/AtieDag/Experimenting-with-RNN/blob/master/DeepLearningModels.py)) file for full code.
+This experiment is written in Python with the help of the libraries tensorflow and keras, the model code exist on a different file to make this easier to run. See the ([DeepLearningModels.py](https://github.com/AtieDag/Experimenting-with-RNN/blob/master/DeepLearningModels.py)) file for full code.
 
 ### Feedforward and Recurrent neural networks
 
@@ -90,7 +91,7 @@ print('dataX:', dataX.shape,'\ndataY:', dataY.shape, sep='')
     dataY:(80, 10)
 
 
-## Creat the models
+## Create the models
 
 
 ```python

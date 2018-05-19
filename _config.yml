@@ -19,7 +19,7 @@
 title:  Atie Daghlawi
 author: Data scientists
 # email: your-email@domain.com
-description:   
+description:  a #
 # baseurl: "" # the subpath of your site, e.g. /blog
 # url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
@@ -36,6 +36,7 @@ github_username:  atiedag
 # googleplus_username: +jekyll
 
 show_excerpts: false # set to true to show excerpts on the homepage
+# google_analytics: UA-NNNNNNNN-N
 
 
 # Build settings

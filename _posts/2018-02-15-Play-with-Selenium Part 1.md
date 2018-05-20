@@ -1,8 +1,8 @@
 ---
 layout: notebook
-title: "Web Scraping with Selenium Part 1"
+title: "Play with Selenium Part 1"
 date: 2018-02-15
-excerpt: First part is to building a web scrapinger that lets us click around.
+excerpt: First part, a fast walk through of selenium with a goal to click on a object.
 tags: Python Selenium  
 ---
 

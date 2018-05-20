@@ -1,7 +1,7 @@
 ---
 layout: notebook
 title:  "Intro to Keras with MNIST!"
-date: 2018-02-20
+date: 2018-03-20
 excerpt: The goal of this notebook is to provide some basic intuition on the diffrences between two types of deep neural networks and to encourage you to test different deep learning architectures.
 tags: Keras DeepLearning
 ---

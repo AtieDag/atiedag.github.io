@@ -1,7 +1,7 @@
 ---
 layout: notebook
 title:  "Python Decorators"
-date: 2018-01-26 
+date: 2018-01-26
 excerpt:  I'll walk through some example where decorator can is been used.
 tags: Python Decorator
 ---
@@ -10,7 +10,7 @@ By using the properties of nested functions you can surround a function with ano
 
 
 #### Example 1
-We create a function (that sleeps for one second) and wish to time it.
+We create a function (that sleeps for one second) and we wish to time it.
 
 
 ```python

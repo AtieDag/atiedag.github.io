@@ -2,11 +2,11 @@
 layout: notebook
 title:  "Python Decorators"
 date: 2017-09-06
-excerpt:  We'll walk through some example where decorator can is been used.
+excerpt:  I'll walk through some example where decorator can is been used.
 tags: Python Decorator
 ---
 
-By using the properties of nested function you can surround a function with another function in so-called wrapping. We'll walk through some example where this can is been used.
+By using the properties of nested functions you can surround a function with another function in so-called wrapping. I'll walk through some example where this can is been used.
 
 
 #### Example 1

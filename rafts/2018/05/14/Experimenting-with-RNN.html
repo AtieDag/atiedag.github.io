@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>Experimenting with RNN! | Atie Daghlawi</title>
+<meta name="generator" content="Jekyll v3.8.1" />
+<meta property="og:title" content="Experimenting with RNN!" />
+<meta name="author" content="Data scientist" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The goal of this notebook is to provide some basic intuition on the diffrences between two types of deep neural networks and to encourage you to test different deep learning architectures." />
+<meta property="og:description" content="The goal of this notebook is to provide some basic intuition on the diffrences between two types of deep neural networks and to encourage you to test different deep learning architectures." />
+<link rel="canonical" href="http://localhost:4000/2018/05/14/Experimenting-with-RNN.html" />
+<meta property="og:url" content="http://localhost:4000/2018/05/14/Experimenting-with-RNN.html" />
+<meta property="og:site_name" content="Atie Daghlawi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-05-14T00:00:00+02:00" />
+<script type="application/ld+json">
+{"description":"The goal of this notebook is to provide some basic intuition on the diffrences between two types of deep neural networks and to encourage you to test different deep learning architectures.","author":{"@type":"Person","name":"Data scientist"},"@type":"BlogPosting","url":"http://localhost:4000/2018/05/14/Experimenting-with-RNN.html","headline":"Experimenting with RNN!","dateModified":"2018-05-14T00:00:00+02:00","datePublished":"2018-05-14T00:00:00+02:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/05/14/Experimenting-with-RNN.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Atie Daghlawi" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Atie Daghlawi</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Experimenting with RNN!</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-05-14T00:00:00+02:00" itemprop="datePublished">May 14, 2018
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <link href="/css/pygments.css" rel="stylesheet">
+<link href="/assets/main.css" rel="stylesheet">
+
+<p>This experiment has been run on a NVIDIA GeForce GTX 970 but shouldn’t have any problem with using CPU only.</p>
+
+<p>This experiment is written in Python with the help of the libraries tensorflow and keras, the model code exist on a different file to make this easier to run. See the (<a href="https://github.com/AtieDag/Experimenting-with-RNN/blob/master/DeepLearningModels.py">DeepLearningModels.py</a>) file for full code.</p>
+
+<h3 id="feedforward-and-recurrent-neural-networks">Feedforward and Recurrent neural networks</h3>
+
+<p>Feedforward neural networks can approximate any continuous function, but only in the interval where there is enough density of training data (<a href="https://en.wikipedia.org/wiki/Universal_approximation_theorem">Universal approximation theorem</a>). Unlike feedforward neural networks, RNNs can use their internal states (memory) which is used to store information from the input and the histories.</p>
+
+<p><strong>Method</strong>: We generate two diffrent sine waves and multiply them to create the wave we want to predict. The dataset consists of two periods of 100 samples. We train two models, a Feedforward neural network and an RNN on this dataset. We send the predicted values back to the model to follow if the model has learned the function.</p>
+
+<p><strong>Hypothesis</strong>: Feedforward neural networks accuracy is expected to go down for every period, while  RNN would remember.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="kn">import</span> <span class="n">MaxNLocator</span>
+<span class="kn">from</span> <span class="nn">DeepLearningModels</span> <span class="kn">import</span> <span class="n">ModelFullyConnected</span><span class="p">,</span> <span class="n">ModelRNN</span><span class="p">,</span> <span class="n">sine_wave</span>
+</code></pre></div></div>
+
+<h3 id="sine-wave">Sine wave</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">wave_1</span> <span class="o">=</span> <span class="n">sine_wave</span><span class="p">(</span><span class="n">nsamples</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">wave_2</span> <span class="o">=</span> <span class="n">sine_wave</span><span class="p">(</span><span class="n">nsamples</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">wave_1</span><span class="o">*</span><span class="n">wave_2</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Sine-wave </span><span class="se">\n</span><span class="s">One period=50 sample, repeat=2'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/image_folder/Experimenting-with-RNN/output_7_0.png" alt="png" /></p>
+
+<h3 id="create-features-and-targets">Create features and targets</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">time_back</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">time_forward</span> <span class="o">=</span> <span class="n">time_back</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dataX</span><span class="p">,</span> <span class="n">dataY</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">-</span><span class="n">time_back</span><span class="o">-</span><span class="n">time_forward</span><span class="p">):</span>
+    <span class="n">dataX</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">time_back</span><span class="p">])</span>
+    <span class="n">dataY</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">time_back</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">time_back</span><span class="o">+</span><span class="n">time_forward</span><span class="p">])</span>
+<span class="n">dataX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dataX</span><span class="p">)</span>
+<span class="n">dataY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dataY</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">time_forward</span><span class="p">),</span> <span class="n">dataX</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s">'bo'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'dataX'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">time_forward</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">time_forward</span><span class="p">),</span> <span class="n">dataY</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s">'ro'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'Predict'</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">MaxNLocator</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">integer</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s">'x'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/image_folder/Experimenting-with-RNN/output_11_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dataX</span> <span class="o">=</span> <span class="n">dataX</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataX</span><span class="p">),</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">time_back</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'dataX:'</span><span class="p">,</span> <span class="n">dataX</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="s">'</span><span class="se">\n</span><span class="s">dataY:'</span><span class="p">,</span> <span class="n">dataY</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">''</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dataX:(80, 1, 10)
+dataY:(80, 10)
+</code></pre></div></div>
+
+<h2 id="create-the-models">Create the models</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fc_model</span> <span class="o">=</span> <span class="n">ModelFullyConnected</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">dataX</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dataY</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">rnn_model</span> <span class="o">=</span> <span class="n">ModelRNN</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">dataX</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dataY</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="fully-connected-neural-network">Fully connected neural network</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fc_model</span><span class="o">.</span><span class="n">create_model</span><span class="p">(</span><span class="n">nr_layers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">fc_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dataX</span><span class="p">,</span> <span class="n">dataY</span><span class="p">)</span>
+<span class="n">fc_model</span><span class="o">.</span><span class="n">plot_training</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/image_folder/Experimenting-with-RNN/output_16_0.png" alt="png" /></p>
+
+<h4 id="simplernn">SimpleRNN</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rnn_model</span><span class="o">.</span><span class="n">create_model</span><span class="p">(</span><span class="n">nr_layers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">rnn_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dataX</span><span class="p">,</span> <span class="n">dataY</span><span class="p">)</span>
+<span class="n">rnn_model</span><span class="o">.</span><span class="n">plot_training</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/image_folder/Experimenting-with-RNN/output_18_0.png" alt="png" /></p>
+
+<h4 id="plot">Plot</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plot_fc</span> <span class="o">=</span> <span class="n">fc_model</span><span class="o">.</span><span class="n">plot_predict</span><span class="p">(</span><span class="n">dataX</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">],</span> <span class="n">time_forward</span><span class="p">,</span> <span class="n">len_range</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">plot_rnn</span> <span class="o">=</span> <span class="n">rnn_model</span><span class="o">.</span><span class="n">plot_predict</span><span class="p">(</span><span class="n">dataX</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">],</span> <span class="n">time_forward</span><span class="p">,</span> <span class="n">len_range</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">plot_full</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">plot_fc</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">plot_full</span><span class="p">):</span>
+    <span class="n">plot_full</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">211</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">fc_model</span><span class="o">.</span><span class="n">model_information</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_full</span><span class="p">[</span><span class="n">time_forward</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">plot_fc</span><span class="p">)],</span> <span class="s">'r--'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_fc</span><span class="p">[:</span><span class="o">-</span><span class="n">time_forward</span><span class="p">],</span> <span class="s">'b'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">212</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">rnn_model</span><span class="o">.</span><span class="n">model_information</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_full</span><span class="p">[</span><span class="n">time_forward</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">plot_fc</span><span class="p">)],</span> <span class="s">'r--'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_rnn</span><span class="p">[:</span><span class="o">-</span><span class="n">time_forward</span><span class="p">],</span> <span class="s">'b'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/image_folder/Experimenting-with-RNN/output_21_0.png" alt="png" /></p>
+
+<p><strong>Conclusion</strong>: Feedforward neural networks are not great on data that have has a periodic quality. However, RNN are able to remember and have a “memory” about what they have “seen” before.</p>
+
+<p><strong>Discussion</strong>: It seems that when the Feedforward neural network model is over zero it have learned that the possibility of going down is high and up if under zero. The RNN model is remembering the amplitude and frequency.</p>
+
+<p><strong>ToDo</strong>:</p>
+
+<ul>
+  <li>Here are some ideas that I think are worth exploring:
+    <ul>
+      <li>Change the value “time_back”, what is the lowest value (can’t predict the wave function)?</li>
+      <li>Try different activations.</li>
+      <li>
+        <p>Try using the Stateful mode. If the model is stateful, then it can “remember” some aspects of the previous steps in the sequence.</p>
+      </li>
+      <li>LSTM <a href="https://en.wikipedia.org/wiki/Vanishing_gradient_problem">Vanishing gradient problem</a></li>
+      <li>CNN</li>
+    </ul>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/2018/05/14/Experimenting-with-RNN.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Atie Daghlawi</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Data scientist</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/atiedag"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">atiedag</span></a></li><li><a href="https://www.linkedin.com/in/atie-daghlawi"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">atie-daghlawi</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

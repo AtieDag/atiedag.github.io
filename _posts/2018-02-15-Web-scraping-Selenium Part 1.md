@@ -120,4 +120,4 @@ driver.close()
 ```
 
 
-In the [next part]({% post_url  2018-02-20-Web-scraping-Selenium Part 2%}) I'll create a class to make it more beautiful and easy to control. We will surround it with a decorator and if you are new to decorator I have a short [example]({% post_url 2017-09-06-Decorator %}) on that too.
+In the [next part]({% post_url  2018-02-20-Web-scraping-Selenium Part 2%}) I'll create a class to make it more beautiful and easy to control. We will surround it with a decorator and if you are new to decorator I have a short [example]({% post_url 2018-01-26-Decorator %}) on that too.

@@ -18,7 +18,7 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
 ```
 
-Select the path to the chromedriver.exe file this will create the driver and it will load the "fake" browser.
+Select the path to the chromedriver.exe file this will create the driver and it will load the browser. In my case the path is in the current working directory.
 
 
 ```python
@@ -27,7 +27,7 @@ patch = os.getcwd() + "\\" + "chromedriver.exe"
 driver = webdriver.Chrome(patch)
 ```
 
-The driver have some in build functions as .get(), if you input the address it will load that page in the browser.
+The driver have some in build functions as .get() and if we input an address the browser will load that page.
 
 
 ```python
@@ -36,7 +36,7 @@ address = 'https://www.washingtonpost.com/'
 driver.get(address)
 ```
 
-There's also one important future, selenium supports "loading time" and can wait until a page/element is loaded.
+There's also one important future, selenium supports "loading time" and can wait until a page/element is loaded. Here we select a waiting time of two seconds.
 
 ```python
 # WebDriverWait with 2 sec delay
@@ -80,7 +80,7 @@ button = wait.until(ec.element_to_be_clickable((By.XPATH, xpath_notworking)))
 
 
 
-We surround it with a try/except
+So we surround it with a try/except.
 
 
 ```python

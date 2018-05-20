@@ -1,7 +1,7 @@
 ---
 layout: notebook
 title:  "Python Decorators"
-date: 2018-01-26
+date: 2018-01-26 
 excerpt:  I'll walk through some example where decorator can is been used.
 tags: Python Decorator
 ---

@@ -2,8 +2,8 @@
 layout: notebook
 title: "Web Scraping with Selenium Part 2"
 date: 2018-02-20
-excerpt: Second part is to make the code more clean and eassy to work with.
-tags: Python Selenium  
+excerpt: Second part is to make the code more clean and easy to work with.
+tags: Python Selenium
 ---
 
 

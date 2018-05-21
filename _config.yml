@@ -37,7 +37,7 @@ github_username:  atiedag
 
 show_excerpts: false # set to true to show excerpts on the homepage
 
-# google_analytics: UA-NNNNNNNN-N
+google_analytics: UA-119523233-1
 
 
 # Build settings

@@ -5,7 +5,7 @@ date: 2018-02-20
 excerpt: Second part is to clean the code and make it easy to work with.
 tags: Python Selenium
 ---
-
+ 
 
 ```python
 import os

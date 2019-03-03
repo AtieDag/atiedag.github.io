@@ -42,7 +42,7 @@ google_analytics: UA-119523233-1
 
 # Build settings
 markdown: kramdown
-theme: jekyll-theme-cayman
+theme: jekyll-theme-minimal
 highlighter: rouge
 
 header_pages:

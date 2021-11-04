@@ -5,4 +5,4 @@ permalink: /about/
 ---
 
 Hi!  
-My name is Atie, zup?
+

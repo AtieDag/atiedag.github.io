@@ -6,17 +6,17 @@ excerpt: The goal of this notebook is to provide some basic intuition on the dif
 tags: RNN DeepLearning
 ---
 
-This experiment has been run on a NVIDIA GeForce GTX 970 but shouldn't have any problem with using CPU only.
+This experiment has been run on an NVIDIA GeForce GTX 970 but shouldn’t have any problem using CPU only.
 
-This experiment is written in Python with the help of the libraries tensorflow and keras, the model code exist on a different file to make this easier to run. See the ([DeepLearningModels.py](https://github.com/AtieDag/Experimenting-with-RNN/blob/master/DeepLearningModels.py)) file for full code.
+This experiment is written in Python with the help of the libraries Tensorflow and Keras; the model code exist on a different file to make this easier to run. See the ([DeepLearningModels.py](https://github.com/AtieDag/Experimenting-with-RNN/blob/master/DeepLearningModels.py)) file for complete code.
 
 ### Feedforward and Recurrent neural networks
 
-Feedforward neural networks can approximate any continuous function, but only in the interval where there is enough density of training data ([Universal approximation theorem](https://en.wikipedia.org/wiki/Universal_approximation_theorem)). Unlike feedforward neural networks, RNNs can use their internal states (memory) which is used to store information from the input and the histories.
+Feedforward neural networks can approximate any continuous function, but only in the interval with enough training data density ([Universal approximation theorem](https://en.wikipedia.org/wiki/Universal_approximation_theorem)). Unlike feedforward neural networks, RNNs can use their internal states (memory) to store information from the input and the histories.
 
-**Method**: We generate two diffrent sine waves and multiply them to create the wave we want to predict. The dataset consists of two periods of 100 samples. We train two models, a Feedforward neural network and an RNN on this dataset. We send the predicted values back to the model to follow if the model has learned the function.
+**Method**: The dataset is two different sine waves multiplied together to create the wave we want to predict. We train two models, a Feedforward neural network and an RNN, on this dataset. We send the predicted values back to the model to follow if the model has learned the function.
 
-**Hypothesis**: Feedforward neural networks accuracy is expected to go down for every period, while  RNN would remember.
+**Hypothesis**: Feedforward neural networks accuracy is expected to go down for every period, while RNN would remember.
 
 
 ```python
@@ -158,16 +158,15 @@ plt.show()
 ![png](/image_folder/Experimenting-with-RNN/output_21_0.png)
 
 
-**Conclusion**: Feedforward neural networks are not great on data that have has a periodic quality. However, RNN are able to remember and have a "memory" about what they have "seen" before.
+**Conclusion**: Feedforward neural networks are not great on data that have has a periodic quality. However, RNN can remember and have a "memory" about what they have "seen" before.
 
-**Discussion**: It seems that when the Feedforward neural network model is over zero it have learned that the possibility of going down is high and up if under zero. The RNN model is remembering the amplitude and frequency.
+**Discussion**: When the Feedforward neural network model tries to predict the next value at zero, it has learned that the possibility is fifty-fifty. But the RNN model remembers the amplitude and frequency.
 
 **ToDo**:
 
 * Here are some ideas that I think are worth exploring:
-    - Change the value "time_back", what is the lowest value (can't predict the wave function)?
+    - Change the value "time_back", what is the lowest value?
     - Try different activations.
-    - Try using the Stateful mode. If the model is stateful, then it can "remember" some aspects of the previous steps in the sequence.
-
+    - If the model is stateful, will it "remember" some aspects of the previous steps in the sequence.
     - LSTM [Vanishing gradient problem](https://en.wikipedia.org/wiki/Vanishing_gradient_problem)
     - CNN

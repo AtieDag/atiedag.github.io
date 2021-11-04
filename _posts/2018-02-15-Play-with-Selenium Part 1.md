@@ -7,7 +7,7 @@ tags: Python Selenium
 ---
 
 
-There's two things we need to have before we create some awesome web scraper. A driver, in this case I'll be using [chromedriver](http://chromedriver.chromium.org/downloads) and the libary [selenium](https://pypi.org/project/selenium/). The goal with this notebook is to building a browser that lets us click.
+There are two things we need to have before we create some awesome web scraper. A driver, in this case, I’ll be using [chromedriver](http://chromedriver.chromium.org/downloads) and the library [selenium](https://pypi.org/project/selenium/). The goal with this notebook is to build a browser that lets us click.
 
 
 ```python
@@ -27,7 +27,7 @@ patch = os.getcwd() + "\\" + "chromedriver.exe"
 driver = webdriver.Chrome(patch)
 ```
 
-The driver have some in build functions as .get() and if we input an address the browser will load that page.
+The driver has some in build functions as .get(), and if we input an address, the browser will load that page.
 
 
 ```python
@@ -36,14 +36,14 @@ address = 'https://www.washingtonpost.com/'
 driver.get(address)
 ```
 
-There's also one important future, selenium supports "loading time" and can wait until a page/element is loaded. Here we select a waiting time of two seconds.
+There's also one crucial future, selenium supports "loading time" and can wait until a page/element is loaded. Here we select a waiting time of two seconds.
 
 ```python
 # WebDriverWait with 2 sec delay
 wait = WebDriverWait(driver, 2)
 ```
 
-To test this feature we will be trying to click on a bottom that exist and one that doesn’t. We will notice that the one that doesn’t exist will return a timeout exception.
+To test this feature, we will be trying to click on a bottom that exists and one that doesn’t. We will notice that the one that doesn’t exist will return a timeout exception.
 
 
 ```python
@@ -120,4 +120,4 @@ driver.close()
 ```
 
 
-In the [next part]({% post_url  2018-02-20-Play-with-Selenium Part 2%}) I'll create a class to make it more beautiful and easy to control. We will surround it with a decorator and if you are new to decorator I have a short [example]({% post_url 2018-01-26-Decorator %}) on that too.
+In the [next part]({% post_url  2018-02-20-Play-with-Selenium Part 2%}) I'll create a class to make it more beautiful and easy to control. We will surround it with a decorator, and if you are new to decorators, I have a short [example]({% post_url 2018-01-26-Decorator %}) on that too.

@@ -6,11 +6,11 @@ excerpt:  I'll walk through some example where decorator can is been used.
 tags: Python Decorator
 ---
 
-By using the properties of nested functions you can surround a function with another function in so-called wrapping. I'll walk through some example where this can is been used.
+By using the properties of nested functions, you can surround a function with another function in so-called wrapping. I'll walk through some examples where this can be helpful.
 
 
 #### Example 1
-We create a function (that sleeps for one second) and we wish to time it.
+We create a function that sleeps for one second, and we wish to time it. 
 
 
 ```python
@@ -59,7 +59,7 @@ dec(1)
 
 
 ### Syntax
-Python allows you to call the decorator by using the @ symbol. This works inside a class object too.
+Python allows you to call the decorator using the @ symbol, which works inside a class object.
 
 
 ```python
@@ -77,7 +77,7 @@ my_func(3)
 
 
 #### Example 2
-We create an other function with the same name (that adds one to the input value).
+We create another function with the same name that adds one to the input value.
 
 
 ```python

@@ -2,7 +2,7 @@
 layout: notebook
 title:  "Experimenting with RNN!"
 date:   2018-05-14
-excerpt: The goal of this notebook is to provide some basic intuition on the diffrences between two types of deep neural networks and to encourage you to test different deep learning architectures.
+excerpt: This notebook aims to provide some basic intuition on the differences between two types of deep neural networks and to encourage you to test different deep learning architectures.
 tags: RNN DeepLearning
 ---
 
